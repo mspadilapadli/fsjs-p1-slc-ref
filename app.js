@@ -7,7 +7,7 @@ const port = 3000;
 // });
 
 //set view engine
-app.set("viewa engine", "ejs");
+app.set("view engine", "ejs");
 
 //set middleware to get fata from html input
 app.use(express.urlencoded({ extended: true }));

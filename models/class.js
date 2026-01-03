@@ -1,7 +1,7 @@
 class ProductionHouse {
     constructor(id, name_prodHouse, headquarters) {
         this.id = id;
-        this.name = name_prodHouse;
+        this.name_prodHouse = name_prodHouse;
         this.headquarters = headquarters;
     }
 }
