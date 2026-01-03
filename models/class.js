@@ -16,6 +16,13 @@ class Movie {
     }
 }
 
+class MovieWithPhName extends Movie {
+    constructor(id, name, released_year, genre, ProductionHouseId, ph_name) {
+        super(id, name, released_year, genre, ProductionHouseId);
+        this.productionHouseName = ph_name;
+    }
+}
+
 class Factory {
     static instancePHs(arr) {
         return arr.map(({ id, name_prodHouse, headquarters }) =>
@@ -31,6 +38,19 @@ class Factory {
                     released_year,
                     genre,
                     ProductionHouseId
+                )
+        );
+    }
+    static instanceMoviesWithPHName(arr) {
+        return arr.map(
+            ({ id, name, released_year, genre, ProductionHouseId, ph_name }) =>
+                new MovieWithPhName(
+                    id,
+                    name,
+                    released_year,
+                    genre,
+                    ProductionHouseId,
+                    ph_name
                 )
         );
     }

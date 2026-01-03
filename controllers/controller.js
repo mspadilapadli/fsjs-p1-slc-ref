@@ -10,6 +10,8 @@ class Controller {
     }
     static async readPH(req, res) {
         try {
+            const dataPHs = await Model.getPHs();
+            res.render("phs", { dataPHs });
         } catch (error) {
             res.send(error);
         }
@@ -17,9 +19,11 @@ class Controller {
     static async readMovies(req, res) {
         try {
             const dataMovies = await Model.getMovies();
+            console.log(dataMovies, "ctrl");
             res.render("movies", { dataMovies });
         } catch (error) {
-            res.send(error);
+            // res.send(error);
+            console.log(error);
         }
     }
     static async showForm(req, res) {
