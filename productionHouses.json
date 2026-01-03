@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Walt Disney Studios",
+        "headquarters": "Burbank, California, United States"
+    },
+    {
+        "name": "Pixar",
+        "headquarters": "Emeryville, California, United States"
+    },
+    {
+        "name": "Warner Bros",
+        "headquarters": "Los Angeles, California, United States"
+    },
+    {
+        "name": "Universal Pictures",
+        "headquarters": "Universal City, California, United States"
+    },
+    {
+        "name": "Paramount Pictures",
+        "headquarters": "Los Angeles, California, United States"
+    }
+]
