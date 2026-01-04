@@ -58,6 +58,24 @@ ORDER BY m.released_year desc `;
             throw error;
         }
     }
+    static async submitEdit(
+        id,
+        { name, released_year, genre, ProductionHouseId }
+    ) {
+        try {
+            let query = `update "Movies" set 
+             "name" = '${name}',
+                "released_year"= '${released_year}', 
+                "genre"= '${genre}',
+                "ProductionHouseId" = '${ProductionHouseId}'
+                where "id" = ${id}
+            `;
+            console.log(query);
+            await pool.query(query);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = Model;

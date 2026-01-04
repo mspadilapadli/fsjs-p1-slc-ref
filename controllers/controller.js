@@ -53,6 +53,10 @@ class Controller {
     }
     static async postEdit(req, res) {
         try {
+            const { id } = req.params;
+            const payload = { ...req.body };
+            await Model.submitEdit(id, payload);
+            res.redirect("/movies");
         } catch (error) {
             res.send(error);
         }
