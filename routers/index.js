@@ -10,14 +10,14 @@ router.get("/production-houses", Controller.readPH);
 router.get("/movies", Controller.readMovies);
 
 //add
-// router.get("/movies/add", Controller.showForm);
-// router.post("/movies/add", Controller.submitAdd);
+router.get("/movies/add", Controller.showForm);
+router.post("/movies/add", Controller.postAdd);
 
 // //update
-// router.get("/movies/edit/:id", Controller.showForm);
-// router.post("/movies/edit/:id", Controller.submitEdit);
+router.get("/movies/edit/:id", Controller.showForm);
+router.post("/movies/edit/:id", Controller.postEdit);
 
 // //delete
-// router.get("/movies/delete/:id", Controller.deleteMovie);
+router.get("/movies/delete/:id", Controller.deleteMovie);
 
 module.exports = router;

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <lyric>Add or Update Movie</lyric>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+
+   <%-include("_navbar")%>
+      <label for="">
+         <%=action%>
+            <%=movie.name%>
+      </label>
+      <div class="container">
+         <form action="<%=action%>" method="post">
+
+            <div class="mb-3">
+               <label>Name
+
+               </label>
+               <input type="text" class="form-control" name="name" value="<%=movie?.name ||"" %>">
+            </div>
+
+            <div class="mb-3">
+               <label>Release Year
+               </label>
+               <input type="number" class="form-control" name="released_year" value="<%=movie?.released_year ||"" %>">
+            </div>
+
+            <div class=" mb-3">
+               <label>Genre
+               </label>
+               <select class="form-control" name="genre" placeholder="Select">
+                  <option value="" disabled selected hidden>Choose the genre</option>
+                  <option value="animation" <%=movie?.genre=="animation" ? "selected" :"" %>>animation</option>
+                  <option value="comedy" <%=movie?.genre=="comedy" ? "selected" :"" %> >comedy</option>
+                  <option value="drama" <%=movie?.genre=="drama" ? "selected" :"" %> >drama</option>
+                  <option value="horor" <%=movie?.genre=="horor" ? "selected" :"" %> >horor</option>
+                  <option value="religious" <%=movie?.genre=="religious" ? "selected" :"" %> >religious</option>
+                  <option value="thriller" <%=movie?.genre=="thriller" ? "selected" :"" %> >thriller</option>
+               </select>
+            </div>
+
+            <div class=" mb-3">
+               <label class="form-label">Production House
+               </label>
+               <select class="form-select" name="ProductionHouseId">
+                  <option value="" disabled selected hidden>Select</option>
+                  <% listPH.forEach((ph)=>{ %>
+                     <option value="<%= ph.id%>" <%=movie?.ProductionHouseId==ph.id ? "selected" : "" %> >
+                        <%=ph.name_prodHouse %>
+                     </option>
+                     <% }) %>
+               </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">
+               Submit
+            </button>
+         </form>
+
+      </div>
+
+
+
+      </tbody>
+      </table>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+         crossorigin="anonymous"></script>
+</body>
+
+</html>

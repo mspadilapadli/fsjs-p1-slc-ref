@@ -19,26 +19,39 @@ class Controller {
     static async readMovies(req, res) {
         try {
             const dataMovies = await Model.getMovies();
-            console.log(dataMovies, "ctrl");
             res.render("movies", { dataMovies });
         } catch (error) {
-            // res.send(error);
-            console.log(error);
+            res.send(error);
         }
     }
     static async showForm(req, res) {
         try {
+            const { id } = req.params;
+            const listPH = await Model.getPHs();
+            let action = "/movies/add";
+            let movie = {};
+
+            if (id) {
+                action = `/movies/edit/${id}`;
+                movie = await Model.getMovieById(id);
+            }
+            console.log(movie);
+            res.render("showForm", { movie, listPH, action });
         } catch (error) {
-            res.send(error);
+            console.log(error);
+            // res.send(error);
         }
     }
-    static async submitAdd(req, res) {
+    static async postAdd(req, res) {
         try {
+            const data = { ...req.body };
+            await Model.submitAdd(data);
+            res.redirect("/movies");
         } catch (error) {
-            res.send(error);
+            console.log(error);
         }
     }
-    static async submitEdit(req, res) {
+    static async postEdit(req, res) {
         try {
         } catch (error) {
             res.send(error);
