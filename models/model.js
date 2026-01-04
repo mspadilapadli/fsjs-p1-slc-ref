@@ -43,8 +43,17 @@ ORDER BY m.released_year desc `;
         }
     }
 
-    static async submitAdd({ name, released_year, genre, ProductionHouseId }) {
+    static async submitAdd(payload) {
         try {
+            const { name, released_year, genre, ProductionHouseId } = payload;
+
+            const validation = this.validate(payload);
+            if (Object.keys(validation).length > 0)
+                throw {
+                    name: "ErrorValidation",
+                    errValidation: validation,
+                };
+
             const query = `insert into "Movies" ( 
                 "name",
                 "released_year", 
@@ -52,17 +61,23 @@ ORDER BY m.released_year desc `;
                 "ProductionHouseId"
             )
             values ('${name}','${released_year}','${genre}','${ProductionHouseId}')`;
-            console.log(query);
+
             await pool.query(query);
         } catch (error) {
             throw error;
         }
     }
-    static async submitEdit(
-        id,
-        { name, released_year, genre, ProductionHouseId }
-    ) {
+    static async submitEdit(id, payload) {
         try {
+            const { name, released_year, genre, ProductionHouseId } = payload;
+            const validation = this.validate(payload);
+            if (Object.keys(validation).length > 0)
+                throw {
+                    name: "ErrorValidation",
+                    errValidation: validation,
+                };
+
+            console.log("test model");
             let query = `update "Movies" set 
              "name" = '${name}',
                 "released_year"= '${released_year}', 
@@ -70,7 +85,6 @@ ORDER BY m.released_year desc `;
                 "ProductionHouseId" = '${ProductionHouseId}'
                 where "id" = ${id}
             `;
-            console.log(query);
             await pool.query(query);
         } catch (error) {
             throw error;
@@ -81,6 +95,30 @@ ORDER BY m.released_year desc `;
         try {
             let query = `delete from "Movies" where "id" = ${id}`;
             await pool.query(query);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static validate(payload) {
+        try {
+            const { name, released_year, genre, ProductionHouseId } = payload;
+            const error = {};
+            if (!name) {
+                error.name = `*Name is required`;
+            }
+            if (!released_year) {
+                error.released_year = `*Release year is required`;
+            } else if (released_year > 2025) {
+                error.released_year = `*Maksimum released year is 2025`;
+            }
+            if (!genre) {
+                error.genre = `*Genre is required`;
+            }
+            if (!ProductionHouseId) {
+                error.ProductionHouseId = `*Production House Id is required`;
+            }
+            return error;
         } catch (error) {
             throw error;
         }

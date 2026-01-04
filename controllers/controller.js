@@ -35,11 +35,16 @@ class Controller {
                 action = `/movies/edit/${id}`;
                 movie = await Model.getMovieById(id);
             }
-            console.log(movie);
-            res.render("showForm", { movie, listPH, action });
+
+            res.render("showForm", {
+                movie,
+                listPH,
+                action,
+                error: {},
+                isEdit: false,
+            });
         } catch (error) {
-            console.log(error);
-            // res.send(error);
+            res.send(error);
         }
     }
     static async postAdd(req, res) {
@@ -48,16 +53,37 @@ class Controller {
             await Model.submitAdd(data);
             res.redirect("/movies");
         } catch (error) {
+            const listPH = await Model.getPHs();
+            if (error.name == "ErrorValidation") {
+                return res.render("showForm", {
+                    listPH,
+                    error: error.errValidation,
+                    movie: req.body,
+                    action: "/movies/add",
+                    isEdit: false,
+                });
+            }
+
             console.log(error);
         }
     }
     static async postEdit(req, res) {
+        const { id } = req.params;
         try {
-            const { id } = req.params;
             const payload = { ...req.body };
             await Model.submitEdit(id, payload);
             res.redirect("/movies");
         } catch (error) {
+            const listPH = await Model.getPHs();
+            if (error.name == "ErrorValidation") {
+                return res.render("showForm", {
+                    listPH,
+                    error: error.errValidation,
+                    movie: req.body,
+                    action: `/movies/edit/${id}`,
+                    isEdit: true,
+                });
+            }
             res.send(error);
         }
     }

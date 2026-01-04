@@ -4,7 +4,8 @@
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <lyric>Add or Update Movie</lyric>
+   <lyric>Add or Update Movie : <%=action%>
+   </lyric>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
@@ -12,31 +13,46 @@
 <body>
 
    <%-include("_navbar")%>
-      <label for="">
-         <%=action%>
-            <%=movie.name%>
-      </label>
       <div class="container">
          <form action="<%=action%>" method="post">
 
             <div class="mb-3">
                <label>Name
-
+                  <% if (error.name) { %>
+                     <small class="text-danger ">
+                        <%= error.name %>
+                     </small>
+                     <% } %>
                </label>
-               <input type="text" class="form-control" name="name" value="<%=movie?.name ||"" %>">
+               <input type="text" class="form-control <%= error.name? 'is-invalid' : '' %>" name="name"
+                  value="<%=movie?.name ||'' %>">
             </div>
 
             <div class="mb-3">
                <label>Release Year
+                  <% if (error.released_year) { %>
+                     <small class="text-danger ">
+                        <%= error.released_year %>
+                     </small>
+                     <% } %>
                </label>
-               <input type="number" class="form-control" name="released_year" value="<%=movie?.released_year ||"" %>">
+               <input type="number" class="form-control <%= error.released_year? 'is-invalid' : "" %>"
+                  name="released_year" value="<%=movie?.released_year ||"" %>">
             </div>
 
             <div class=" mb-3">
                <label>Genre
+                  <% if (error.genre) { %>
+                     <small class="text-danger ">
+                        <%= error.genre %>
+                     </small>
+                     <% } %>
                </label>
-               <select class="form-control" name="genre" placeholder="Select">
-                  <option value="" disabled selected hidden>Choose the genre</option>
+               <select class="form-select <%= error.genre? 'is-invalid' : "" %>" name="genre">
+                  <option value="" hidden <%=!movie ? "selected" : "" %>
+                     >
+                     Choose the genre
+                  </option>
                   <option value="animation" <%=movie?.genre=="animation" ? "selected" :"" %>>animation</option>
                   <option value="comedy" <%=movie?.genre=="comedy" ? "selected" :"" %> >comedy</option>
                   <option value="drama" <%=movie?.genre=="drama" ? "selected" :"" %> >drama</option>
@@ -48,9 +64,17 @@
 
             <div class=" mb-3">
                <label class="form-label">Production House
+                  <% if (error.ProductionHouseId) { %>
+                     <small class="text-danger ">
+                        <%= error.ProductionHouseId %>
+                     </small>
+                     <% } %>
                </label>
-               <select class="form-select" name="ProductionHouseId">
-                  <option value="" disabled selected hidden>Select</option>
+               <select class="form-select <%= error.ProductionHouseId? 'is-invalid' : "" %>" name="ProductionHouseId">
+                  <option value="" hidden <%=!movie ? "selected" : "" %>
+                     >
+                     Select
+                  </option>
                   <% listPH.forEach((ph)=>{ %>
                      <option value="<%= ph.id%>" <%=movie?.ProductionHouseId==ph.id ? "selected" : "" %> >
                         <%=ph.name_prodHouse %>
@@ -61,7 +85,7 @@
 
 
             <button type="submit" class="btn btn-primary">
-               Submit
+               <%=isEdit ? "Update" : "Add" %>
             </button>
          </form>
 
