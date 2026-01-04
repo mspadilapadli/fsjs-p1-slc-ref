@@ -76,6 +76,15 @@ ORDER BY m.released_year desc `;
             throw error;
         }
     }
+
+    static async deleteMovie(id) {
+        try {
+            let query = `delete from "Movies" where "id" = ${id}`;
+            await pool.query(query);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = Model;

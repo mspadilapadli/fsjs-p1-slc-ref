@@ -63,6 +63,9 @@ class Controller {
     }
     static async deleteMovie(req, res) {
         try {
+            const { id } = req.params;
+            await Model.deleteMovie(id);
+            res.redirect("/movies");
         } catch (error) {
             res.send(error);
         }
