@@ -10,18 +10,20 @@ class Controller {
     }
     static async readPH(req, res) {
         try {
-            const dataPHs = await Model.getPHs();
-            res.render("phs", { dataPHs });
+            const { q } = req.query;
+            const dataPHs = await Model.getPHs(q);
+            res.render("phs", { dataPHs, q });
         } catch (error) {
             res.send(error);
         }
     }
     static async readMovies(req, res) {
         try {
-            const dataMovies = await Model.getMovies();
-            res.render("movies", { dataMovies });
+            const { q } = req.query;
+            const dataMovies = await Model.getMovies(q);
+            res.render("movies", { dataMovies, q });
         } catch (error) {
-            res.send(error);
+            res.send(error); //
         }
     }
     static async showForm(req, res) {
@@ -42,6 +44,7 @@ class Controller {
                 action,
                 error: {},
                 isEdit: false,
+                q: "",
             });
         } catch (error) {
             res.send(error);
@@ -61,10 +64,11 @@ class Controller {
                     movie: req.body,
                     action: "/movies/add",
                     isEdit: false,
+                    q: "",
                 });
             }
 
-            console.log(error);
+            res.send(error);
         }
     }
     static async postEdit(req, res) {
@@ -82,6 +86,7 @@ class Controller {
                     movie: req.body,
                     action: `/movies/edit/${id}`,
                     isEdit: true,
+                    q: "",
                 });
             }
             res.send(error);

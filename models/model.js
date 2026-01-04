@@ -2,22 +2,30 @@ const Factory = require("./class");
 const pool = require("../config/connection");
 
 class Model {
-    static async getPHs() {
+    static async getPHs(q) {
         try {
-            let query = `SELECT * FROM "ProductionHouses" ORDER BY "name_prodHouse" ASC `;
+            let query = `SELECT * FROM "ProductionHouses" `;
+            if (q) query += `where "name_prodHouse" ilike '%${q}%'`;
+            query += `ORDER BY "name_prodHouse" ASC`;
+
             const { rows } = await pool.query(query);
+
             return Factory.instancePHs(rows);
         } catch (error) {
             throw error;
         }
     }
-    static async getMovies() {
+    static async getMovies(q) {
         try {
             let query = `SELECT m."id", m."name" ,m.released_year ,m.genre ,m."ProductionHouseId", p."name_prodHouse" as "ph_name"
 FROM "Movies" m inner join "ProductionHouses" p 
-ON p."id" = m."ProductionHouseId"
-ORDER BY m.released_year desc `;
+ON p."id" = m."ProductionHouseId" `;
+
+            if (q) query += `where m."name" ilike '%${q}%'`;
+            query += `ORDER BY "released_year" DESC`;
+
             const { rows } = await pool.query(query);
+
             return Factory.instanceMoviesWithPHName(rows);
         } catch (error) {
             throw error;
@@ -27,7 +35,9 @@ ORDER BY m.released_year desc `;
     static async getMovieById(id) {
         try {
             let query = ` select * from "Movies" where "id" = ${id}`;
+
             let data = await pool.query(query);
+
             let { name, released_year, genre, ProductionHouseId } =
                 data.rows[0];
 
@@ -77,7 +87,6 @@ ORDER BY m.released_year desc `;
                     errValidation: validation,
                 };
 
-            console.log("test model");
             let query = `update "Movies" set 
              "name" = '${name}',
                 "released_year"= '${released_year}', 
@@ -93,7 +102,7 @@ ORDER BY m.released_year desc `;
 
     static async deleteMovie(id) {
         try {
-            let query = `delete from "Movies" where "id" = ${id}`;
+            const query = `delete from "Movies" where "id" = ${id}`;
             await pool.query(query);
         } catch (error) {
             throw error;

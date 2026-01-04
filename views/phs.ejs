@@ -14,12 +14,11 @@
 
       <div class="container">
 
-         <div class="my-3">
-            <a href="/songs/add" class="btn btn-primary">Add PH</a>
-         </div>
+
          <nav class="navbar navbar-light bg-light">
-            <form action="/songs" method="get" class="form-inline d-flex">
-               <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+            <form action="/production-houses" method="get" class="form-inline d-flex">
+               <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q"
+                  value="<%=q||''%>">
                <button class=" btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
          </nav>
